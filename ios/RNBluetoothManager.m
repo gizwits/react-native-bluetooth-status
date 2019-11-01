@@ -35,7 +35,9 @@
 {
   if (!_centralManager) {
     _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey: @(NO)}];
+    hasListeners = YES;
   }
+    
   return _centralManager;
 }
 
@@ -74,7 +76,7 @@ RCT_EXPORT_METHOD(initialize) {
 
 -(void)startObserving {
     hasListeners = YES;
-    [self sendEventWithName:@"bluetoothStatus" body:stateName];
+    [self sendEventWithName:@"bluetoothStateNotifications" body:stateName];
 }
 
 -(void)stopObserving {
@@ -85,11 +87,11 @@ RCT_EXPORT_METHOD(initialize) {
 {
     stateName = [self centralManagerStateToString:central.state];
     if (hasListeners) {
-        [self sendEventWithName:@"bluetoothStatus" body:stateName];
+        [self sendEventWithName:@"bluetoothStateNotifications" body:stateName];
     }
 }
 
-- (NSArray<NSString *> *)supportedEvents { return @[@"bluetoothStatus"]; }
+- (NSArray<NSString *> *)supportedEvents { return @[@"bluetoothStateNotifications"]; }
 
 - (NSString *)getConnectionState
 {
