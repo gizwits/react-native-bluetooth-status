@@ -13,9 +13,18 @@ class BluetoothManager {
 
   constructor() {
     const bluetoothEvent = new NativeEventEmitter(RNBluetoothManager);
+    this.bluetoothEvent = bluetoothEvent;
     // this.subscription = bluetoothEvent.addListener('bluetoothStatus', (state) => {
     //   this.bluetoothState = state;
     // });
+  }
+
+  addEventListener(key, callback) {
+    this.bluetoothEvent.addListener(key, callback);
+  }
+
+  removeEventListener(key, callback) {
+    this.bluetoothEvent.removeListener(key, callback);
   }
 
   async state() {
