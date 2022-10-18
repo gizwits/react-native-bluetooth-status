@@ -47,7 +47,7 @@ Note: If you add it to the end of the list it should look something like this:
   	```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
   	```
-      compile project(':react-native-bluetooth-status')
+      implementation project(':react-native-bluetooth-status')
   	```
 ## Usage
 ```javascript
