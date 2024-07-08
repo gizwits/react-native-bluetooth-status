@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.os.Build;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
@@ -75,7 +76,11 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule {
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction("android.bluetooth.BluetoothAdapter.STATE_OFF");
         intentFilter.addAction("android.bluetooth.BluetoothAdapter.STATE_ON");
-        reactContext.registerReceiver(mbluetoothStateBroadcastReceive, intentFilter);
+        if (Build.VERSION.SDK_INT >= 34 && reactContext.getApplicationInfo().targetSdkVersion >= 34) {
+            reactContext.registerReceiver(mbluetoothStateBroadcastReceive, intentFilter, Context.RECEIVER_EXPORTED);
+        } else {
+            reactContext.registerReceiver(mbluetoothStateBroadcastReceive, intentFilter);
+        }
     }
 
     public void callbackBluetoothStateNofitication(JSONObject params) {
