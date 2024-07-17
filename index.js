@@ -24,7 +24,11 @@ class BluetoothManager {
   }
 
   removeEventListener(key, callback) {
-    this.bluetoothEvent.removeListener(key, callback);
+    if (this.bluetoothEvent.removeListener) {
+      this.bluetoothEvent.removeListener(key, callback);
+    } else if (this.bluetoothEvent.removeListeners) {
+      this.bluetoothEvent.removeListeners(key, callback);
+    }
   }
 
   async state() {
